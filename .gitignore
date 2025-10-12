@@ -1,0 +1,18 @@
+# Ignore system files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.lock
+
+# VS Code
+.vscode/
+
+# MacOS
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+# Windows
+Desktop.ini
