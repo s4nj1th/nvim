@@ -27,6 +27,8 @@ a minimal Neovim config that looks good and feels snappy. no bloat, just the ess
 
 ## keymaps
 
+- `<leader>` is **SPACE**
+
 - `<leader>w` - Save
 - `<leader>q` - Quit
 - `<leader>Q` - Force quit
