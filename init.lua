@@ -3,8 +3,8 @@ vim.o.relativenumber = true
 vim.o.wrap = false
 -- vim.o.tabstop = 2
 vim.o.swapfile = false
-vim.g.mapleader = " "
-vim.o.clipboard = "unnamedplus"
+vim.g.mapleader = ' '
+vim.o.clipboard = 'unnamedplus'
 
 vim.keymap.set('n', '<leader>w', ':write<CR>')
 vim.keymap.set('n', '<leader>q', ':quit<CR>')
@@ -13,15 +13,39 @@ vim.keymap.set('n', '<leader>Q', ':q!<CR>')
 vim.keymap.set('n', '<leader>`', ':belowright split | terminal<CR>')
 
 vim.pack.add({
-	{src = "https://github.com/Shatur/neovim-ayu"},
-	{src = "https://github.com/echasnovski/mini.pick"},
-	{src = "https://github.com/stevearc/oil.nvim"},
-	{src = "https://github.com/numToStr/Comment.nvim"},
-	{src = "https://github.com/tpope/vim-fugitive"},
-	{src = "https://github.com/lewis6991/gitsigns.nvim"},
-	{src = "https://github.com/nvim-lualine/lualine.nvim"},
-	{src = "https://github.com/xiyaowong/transparent.nvim"},
+	{src = 'https://github.com/Shatur/neovim-ayu'},
+	{src = 'https://github.com/echasnovski/mini.pick'},
+	{src = 'https://github.com/stevearc/oil.nvim'},
+	{src = 'https://github.com/numToStr/Comment.nvim'},
+	{src = 'https://github.com/tpope/vim-fugitive'},
+	{src = 'https://github.com/lewis6991/gitsigns.nvim'},
+	{src = 'https://github.com/nvim-lualine/lualine.nvim'},
+	{src = 'https://github.com/xiyaowong/transparent.nvim'},
+	{src = 'https://github.com/chomosuke/typst-preview.nvim'},
 })
+
+require 'typst-preview'.setup {
+  debug = false,
+  open_cmd = nil,
+  port = 0,
+  invert_colors = 'never',
+  follow_cursor = true,
+  dependencies_bin = {
+    ['tinymist'] = nil,
+    ['websocat'] = nil
+  },
+  extra_args = nil,
+  get_root = function(path_of_main_file)
+    local root = os.getenv 'TYPST_ROOT'
+    if root then
+      return root
+    end
+    return vim.fn.fnamemodify(path_of_main_file, ':p:h')
+  end,
+  get_main_file = function(path_of_buffer)
+    return path_of_buffer
+  end,
+}
 
 require 'transparent'.setup({
   groups = {
@@ -55,43 +79,43 @@ vim.keymap.set('n', '<leader>gb', ':vert rightbelow Git blame<CR>')
 vim.keymap.set('n', '<leader>gp', ':vert rightbelow Git push<CR>')
 vim.keymap.set('n', '<leader>gP', ':vert rightbelow Git pull<CR>')
 
-vim.keymap.set("n", "<leader>/", function()
-  require("Comment.api").toggle.linewise.current()
+vim.keymap.set('n', '<leader>/', function()
+  require('Comment.api').toggle.linewise.current()
 end)
 
-vim.keymap.set("v", "<leader>/", function()
-  local esc = vim.api.nvim_replace_termcodes("<ESC>", true, false, true)
-  vim.api.nvim_feedkeys(esc, "nx", false)
-  require("Comment.api").toggle.linewise(vim.fn.visualmode())
+vim.keymap.set('v', '<leader>/', function()
+  local esc = vim.api.nvim_replace_termcodes('<ESC>', true, false, true)
+  vim.api.nvim_feedkeys(esc, 'nx', false)
+  require('Comment.api').toggle.linewise(vim.fn.visualmode())
 end)
 
 local function git_rn()
-  if vim.fn.isdirectory(".git") == 0 then
-    return ""
+  if vim.fn.isdirectory('.git') == 0 then
+    return ''
   end
 
-  local branch = vim.fn.system("git rev-parse --abbrev-ref HEAD 2>/dev/null"):gsub("\n", "")
+  local branch = vim.fn.system('git rev-parse --abbrev-ref HEAD 2>/dev/null'):gsub('\n', '')
 
-  local git_status = vim.fn.system("git status --porcelain 2>/dev/null")
-  if git_status ~= "" then
-    return " " .. branch .. "*"
+  local git_status = vim.fn.system('git status --porcelain 2>/dev/null')
+  if git_status ~= '' then
+    return ' ' .. branch .. '*'
   end
-  return " " .. branch
+  return ' ' .. branch
 end
 
-require("lualine").setup({
+require('lualine').setup({
   options = {
-    section_separators = "",
-    component_separators = "",
+    section_separators = '',
+    component_separators = '',
   },
   sections = {
-    lualine_a = { "mode" },
-    lualine_b = { git_rn, "diff", "diagnostics" },
-    lualine_c = { "filename" },
-    lualine_x = { "encoding", "filetype" },
-    lualine_y = { "progress" },
-    lualine_z = { "location" },
+    lualine_a = { 'mode' },
+    lualine_b = { git_rn, 'diff', 'diagnostics' },
+    lualine_c = { 'filename' },
+    lualine_x = { 'encoding', 'filetype' },
+    lualine_y = { 'progress' },
+    lualine_z = { 'location' },
   },
 })
 
-vim.cmd("colorscheme ayu") 
+vim.cmd('colorscheme ayu') 

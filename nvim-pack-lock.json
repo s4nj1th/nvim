@@ -1,0 +1,52 @@
+{
+  "plugins": {
+    "Comment.nvim": {
+      "rev": "e30b7f2008e52442154b66f7c519bfd2f1e32acb",
+      "src": "https://github.com/numToStr/Comment.nvim"
+    },
+    "fyler.nvim": {
+      "rev": "c83a180278deddaa450d499714472f2d3a83fe1f",
+      "src": "https://github.com/A7Lavinraj/fyler.nvim"
+    },
+    "gitsigns.nvim": {
+      "rev": "0c6826374f47fcbb2b53053986ccc59c115044ff",
+      "src": "https://github.com/lewis6991/gitsigns.nvim"
+    },
+    "lualine.nvim": {
+      "rev": "b8c23159c0161f4b89196f74ee3a6d02cdc3a955",
+      "src": "https://github.com/nvim-lualine/lualine.nvim"
+    },
+    "mini.icons": {
+      "rev": "e8fae66cb400744daeedf6e387347df50271c252",
+      "src": "https://github.com/nvim-mini/mini.icons"
+    },
+    "mini.pick": {
+      "rev": "364a239e1c87ce1c4e9355cb7836d99686bb1912",
+      "src": "https://github.com/echasnovski/mini.pick"
+    },
+    "neovim-ayu": {
+      "rev": "cc78e880cce5dfc1187d144ed7251c746feff259",
+      "src": "https://github.com/Shatur/neovim-ayu"
+    },
+    "nvim-autopairs": {
+      "rev": "23320e75953ac82e559c610bec5a90d9c6dfa743",
+      "src": "https://github.com/windwp/nvim-autopairs"
+    },
+    "oil.nvim": {
+      "rev": "919e155fdf38e9148cdb5304faaaf53c20d703ea",
+      "src": "https://github.com/stevearc/oil.nvim"
+    },
+    "transparent.nvim": {
+      "rev": "8ac59883de84e9cd1850ea25cf087031c5ba7d54",
+      "src": "https://github.com/xiyaowong/transparent.nvim"
+    },
+    "typst-preview.nvim": {
+      "rev": "1603d37bb44ed2efa0b4378d1dfedc087b4f2141",
+      "src": "https://github.com/chomosuke/typst-preview.nvim"
+    },
+    "vim-fugitive": {
+      "rev": "61b51c09b7c9ce04e821f6cf76ea4f6f903e3cf4",
+      "src": "https://github.com/tpope/vim-fugitive"
+    }
+  }
+}
