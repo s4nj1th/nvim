@@ -26,6 +26,10 @@ else
     vim.o.relativenumber = true
     vim.o.wrap = false
     vim.o.swapfile = false
+	vim.o.tabstop = 4
+    vim.o.softtabstop = 4
+    vim.o.shiftwidth = 4
+    vim.o.expandtab = true
     
     vim.keymap.set('n', '<leader>w', ':write<CR>')
     vim.keymap.set('n', '<leader>q', ':quit<CR>')
@@ -91,11 +95,13 @@ else
     end)
 
     
-    local function git_rn()
-        if vim.fn.isdirectory('.git') == 0 then return '' end
-        local branch = vim.fn.system('git rev-parse --abbrev-ref HEAD 2>/dev/null'):gsub('\n', '')
-        return vim.fn.system('git status --porcelain 2>/dev/null') ~= '' and (' ' .. branch .. '*') or (' ' .. branch)
-    end
+	local function git_rn()
+	    if vim.fn.isdirectory('.git') == 0 then return '' end
+	    local branch = vim.fn.system('git rev-parse --abbrev-ref HEAD 2>/dev/null'):gsub('\n', '')
+	    local has_changes = vim.fn.system('git status --porcelain 2>/dev/null') ~= ''
+	    
+	    return has_changes and (' ' .. branch .. '*') or (' ' .. branch)
+	end
 
     require('lualine').setup({
         options = { section_separators = '', component_separators = '' },
