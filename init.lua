@@ -1,118 +1,158 @@
 vim.g.mapleader = ' '
 vim.o.clipboard = 'unnamedplus'
 
-if vim.g.vscode then
-    vim.keymap.set('n', '<leader>w', [[<Cmd>call VSCodeNotify('workbench.action.files.save')<CR>]])
-    vim.keymap.set('n', '<leader>q', [[<Cmd>call VSCodeNotify('workbench.action.closeActiveEditor')<CR>]])
-    vim.keymap.set('n', '<leader>Q', [[<Cmd>call VSCodeNotify('workbench.action.closeWindow')<CR>]])
-    
-    vim.keymap.set('n', '<leader>`', [[<Cmd>call VSCodeNotify('workbench.action.terminal.toggleTerminal')<CR>]])
-    
-    vim.keymap.set('n', '<leader>f', [[<Cmd>call VSCodeNotify('workbench.action.quickOpen')<CR>]])
-    vim.keymap.set('n', '<leader>b', [[<Cmd>call VSCodeNotify('workbench.action.showAllEditors')<CR>]])
-    vim.keymap.set('n', '<leader>e', [[<Cmd>call VSCodeNotify('workbench.action.toggleSidebarVisibility')<CR>]])
-    
-    vim.keymap.set('n', '<leader>gs', [[<Cmd>call VSCodeNotify('workbench.view.scm')<CR>]])
-    vim.keymap.set('n', '<leader>gd', [[<Cmd>call VSCodeNotify('git.openChangeToTarget')<CR>]])
-    vim.keymap.set('n', '<leader>gb', [[<Cmd>call VSCodeNotify('git.timeline.focus')<CR>]])
-    vim.keymap.set('n', '<leader>gp', [[<Cmd>call VSCodeNotify('git.push')<CR>]])
-    vim.keymap.set('n', '<leader>gP', [[<Cmd>call VSCodeNotify('git.pull')<CR>]])
-    
-    vim.keymap.set('n', '<leader>/', [[<Cmd>call VSCodeNotify('editor.action.commentLine')<CR>]])
-    vim.keymap.set('v', '<leader>/', [[<Cmd>call VSCodeNotify('editor.action.commentLine')<CR>]])
+local map = vim.keymap.set
 
-else
-    vim.o.number = true
-    vim.o.relativenumber = true
-    vim.o.wrap = true
-    vim.o.linebreak = true
-    vim.o.breakindent = true
-    vim.o.swapfile = false
-    vim.o.tabstop = 4
-    vim.o.softtabstop = 4
-    vim.o.shiftwidth = 4
-    vim.o.expandtab = true
-    vim.o.showbreak = '↪ '
-    
-    vim.keymap.set('n', '<leader>w', ':write<CR>')
-    vim.keymap.set('n', '<leader>q', ':quit<CR>')
-    vim.keymap.set('n', '<leader>Q', ':q!<CR>')
-    vim.keymap.set('n', '<leader>`', ':belowright split | terminal<CR>')
-    
-    vim.pack.add({
-        {src = 'https://github.com/Shatur/neovim-ayu'},
-        {src = 'https://github.com/echasnovski/mini.pick'},
-        {src = 'https://github.com/stevearc/oil.nvim'},
-        {src = 'https://github.com/numToStr/Comment.nvim'},
-        {src = 'https://github.com/tpope/vim-fugitive'},
-        {src = 'https://github.com/lewis6991/gitsigns.nvim'},
-        {src = 'https://github.com/nvim-lualine/lualine.nvim'},
-        {src = 'https://github.com/xiyaowong/transparent.nvim'},
-        {src = 'https://github.com/chomosuke/typst-preview.nvim'},
-    })
-    
-    require('typst-preview').setup {
-        debug = false,
-        open_cmd = nil,
-        port = 0,
-        invert_colors = 'never',
-        follow_cursor = true,
-        dependencies_bin = { ['tinymist'] = nil, ['websocat'] = nil },
-        extra_args = nil,
-        get_root = function(p) return os.getenv('TYPST_ROOT') or vim.fn.fnamemodify(p, ':p:h') end,
-        get_main_file = function(p) return p end,
-    }
-    
-    require('transparent').setup({
-        groups = {
-            'Normal', 'NormalNC', 'Comment', 'Constant', 'Special', 'Identifier',
-            'Statement', 'PreProc', 'Type', 'Underlined', 'Todo', 'String', 'Function',
-            'Conditional', 'Repeat', 'Operator', 'Structure', 'LineNr', 'NonText',
-            'SignColumn', 'CursorLine', 'CursorLineNr', 'StatusLine', 'StatusLineNC',
-            'EndOfBuffer',
-        },
-    })
+vim.o.number = true
+vim.o.relativenumber = true
+vim.o.cursorline = true
+vim.o.signcolumn = 'yes'
 
-    require('mini.pick').setup()
-    require('oil').setup()
-    require('gitsigns').setup({ signcolumn = true, numhl = false, linehl = false })
-    require('Comment').setup()
+vim.o.wrap = true
+vim.o.linebreak = true
+vim.o.breakindent = true
+vim.o.showbreak = '↪ '
 
-    vim.keymap.set('n', '<leader>f', ':Pick files<CR>')
-    vim.keymap.set('n', '<leader>b', ':Pick buffers<CR>')
-    vim.keymap.set('n', '<leader>e', ':vert rightbelow Oil<CR>')
-    vim.keymap.set('n', '<leader>gs', ':vert rightbelow Git<CR>')
-    vim.keymap.set('n', '<leader>ga', ':vert rightbelow Git add %<CR>')
-    vim.keymap.set('n', '<leader>gu', ':vert rightbelow Git restore --staged %<CR>')
-    vim.keymap.set('n', '<leader>gc', ':rightbelow Git commit<CR>')
-    vim.keymap.set('n', '<leader>gd', ':vert rightbelow Gdiffsplit<CR>')
-    vim.keymap.set('n', '<leader>gb', ':vert rightbelow Git blame<CR>')
-    vim.keymap.set('n', '<leader>gp', ':vert rightbelow Git push<CR>')
-    vim.keymap.set('n', '<leader>gP', ':vert rightbelow Git pull<CR>')
+vim.o.tabstop = 4
+vim.o.softtabstop = 4
+vim.o.shiftwidth = 4
+vim.o.expandtab = true
 
-    vim.keymap.set('n', '<leader>/', function() require('Comment.api').toggle.linewise.current() end)
-    vim.keymap.set('v', '<leader>/', function()
-        local esc = vim.api.nvim_replace_termcodes('<ESC>', true, false, true)
-        vim.api.nvim_feedkeys(esc, 'nx', false)
-        require('Comment.api').toggle.linewise(vim.fn.visualmode())
-    end)
+vim.o.scrolloff = 8
+vim.o.sidescrolloff = 8
+vim.o.smoothscroll = true
 
-    
-	local function git_rn()
-	    if vim.fn.isdirectory('.git') == 0 then return '' end
-	    local branch = vim.fn.system('git rev-parse --abbrev-ref HEAD 2>/dev/null'):gsub('\n', '')
-	    local has_changes = vim.fn.system('git status --porcelain 2>/dev/null') ~= ''
-	    
-	    return has_changes and (' ' .. branch .. '*') or (' ' .. branch)
-	end
+vim.o.ignorecase = true
+vim.o.smartcase = true
+vim.o.incsearch = true
+vim.o.hlsearch = true
 
-    require('lualine').setup({
-        options = { section_separators = '', component_separators = '' },
-        sections = {
-            lualine_a = { 'mode' }, lualine_b = { git_rn, 'diff', 'diagnostics' }, lualine_c = { 'filename' },
-            lualine_x = { 'encoding', 'filetype' }, lualine_y = { 'progress' }, lualine_z = { 'location' },
-        },
-    })
+vim.o.splitbelow = true
+vim.o.splitright = true
 
-    vim.cmd('colorscheme ayu') 
-end
+vim.o.undofile = true
+vim.o.swapfile = false
+vim.o.backup = false
+vim.o.writebackup = false
+
+vim.o.updatetime = 250
+vim.o.timeoutlen = 400
+vim.o.termguicolors = true
+vim.o.laststatus = 3
+vim.o.showmode = false
+vim.o.mouse = 'a'
+vim.o.completeopt = 'menuone,noselect'
+
+vim.keymap.set('n', '<leader>w', '<Cmd>write<CR>', { desc = 'Save file' })
+vim.keymap.set('n', '<leader>q', '<Cmd>quit<CR>', { desc = 'Quit' })
+vim.keymap.set('n', '<leader>Q', '<Cmd>q!<CR>', { desc = 'Force quit' })
+
+vim.pack.add({
+    { src = 'https://github.com/Shatur/neovim-ayu' },
+    { src = 'https://github.com/echasnovski/mini.pick' },
+    { src = 'https://github.com/stevearc/oil.nvim' },
+    { src = 'https://github.com/numToStr/Comment.nvim' },
+    { src = 'https://github.com/tpope/vim-fugitive' },
+    { src = 'https://github.com/lewis6991/gitsigns.nvim' },
+    { src = 'https://github.com/nvim-lualine/lualine.nvim' },
+    { src = 'https://github.com/xiyaowong/transparent.nvim' },
+})
+
+require('mini.pick').setup()
+require('oil').setup()
+require('Comment').setup()
+
+require('gitsigns').setup({
+    signcolumn = true,
+    numhl = false,
+    linehl = false,
+})
+
+map('n', '<leader>f', '<Cmd>Pick files<CR>', { desc = 'Find files' })
+map('n', '<leader>b', '<Cmd>Pick buffers<CR>', { desc = 'Find buffers' })
+map('n', '<leader>e', '<Cmd>vert rightbelow Oil<CR>', { desc = 'File explorer' })
+
+map('n', '<leader>gs', '<Cmd>vert rightbelow Git<CR>', { desc = 'Git status' })
+map('n', '<leader>ga', '<Cmd>vert rightbelow Git add %<CR>', { desc = 'Stage file' })
+map('n', '<leader>gu', '<Cmd>vert rightbelow Git restore --staged %<CR>', { desc = 'Unstage file' })
+map('n', '<leader>gc', '<Cmd>rightbelow Git commit<CR>', { desc = 'Git commit' })
+map('n', '<leader>gd', '<Cmd>vert rightbelow Gdiffsplit<CR>', { desc = 'Git diff' })
+map('n', '<leader>gb', '<Cmd>vert rightbelow Git blame<CR>', { desc = 'Git blame' })
+map('n', '<leader>gp', '<Cmd>vert rightbelow Git push<CR>', { desc = 'Git push' })
+map('n', '<leader>gP', '<Cmd>vert rightbelow Git pull<CR>', { desc = 'Git pull' })
+
+map('n', '<leader>/', 'gcc', { remap = true, desc = 'Toggle comment' })
+map('x', '<leader>/', 'gc', { remap = true, desc = 'Toggle comment' })
+
+map('n', '<Esc>', '<Cmd>nohlsearch<CR>', { desc = 'Clear search highlights' })
+
+map('n', '<C-d>', '<C-d>zz', { desc = 'Scroll down' })
+map('n', '<C-u>', '<C-u>zz', { desc = 'Scroll up' })
+map('n', 'n', 'nzzzv', { desc = 'Next search result' })
+map('n', 'N', 'Nzzzv', { desc = 'Previous search result' })
+
+map('v', '<', '<gv')
+map('v', '>', '>gv')
+
+map('n', '<leader>h', '<C-w>h', { desc = 'Move to left split' })
+map('n', '<leader>j', '<C-w>j', { desc = 'Move to lower split' })
+map('n', '<leader>k', '<C-w>k', { desc = 'Move to upper split' })
+map('n', '<leader>l', '<C-w>l', { desc = 'Move to right split' })
+
+map('n', '<leader>`', function()
+    vim.cmd('belowright split | terminal')
+    vim.cmd('startinsert')
+end, { desc = 'Open terminal' })
+
+map('t', '<Esc>', [[<C-\><C-n>]], { desc = 'Exit terminal mode' })
+
+map('t', '<C-h>', [[<C-\><C-n><C-w>h]])
+map('t', '<C-j>', [[<C-\><C-n><C-w>j]])
+map('t', '<C-k>', [[<C-\><C-n><C-w>k]])
+map('t', '<C-l>', [[<C-\><C-n><C-w>l]])
+
+require('lualine').setup({
+    options = {
+        section_separators = '',
+        component_separators = '',
+        globalstatus = true,
+    },
+    sections = {
+        lualine_a = { 'mode' },
+        lualine_b = { 'branch', 'diff', 'diagnostics' },
+        lualine_c = { 'filename' },
+        lualine_x = { 'encoding', 'filetype' },
+        lualine_y = { 'progress' },
+        lualine_z = { 'location' },
+    },
+})
+
+require('transparent').setup({
+    extra_groups = {
+        'NormalFloat',
+        'NvimTreeNormal',
+        'SignColumn',
+        'StatusLine',
+        'StatusLineNC',
+    },
+    exclude_groups = {},
+})
+
+require('transparent').clear_prefix()
+require('transparent').toggle(true)
+
+vim.api.nvim_create_autocmd('ColorScheme', {
+    callback = function()
+        vim.api.nvim_set_hl(0, 'LineNr', {
+            fg = '#555555',
+            bg = 'NONE',
+        })
+
+        vim.api.nvim_set_hl(0, 'CursorLineNr', {
+            fg = '#cccccc',
+            bg = 'NONE',
+        })
+    end,
+})
+
+vim.cmd.colorscheme('ayu')
